@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="icons8-it-48.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>IT-услуги: сайты • боты • автоматизация</title>
+  <meta name="description" content="Сайты-визитки, Telegram-боты и автоматизация таблиц. Делаю быстро, по делу и без лишней воды.">
+  <meta name="theme-color" content="#0A1929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Neucha&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #F5F9FF;
+      --surface: #FFFFFF;
+      --text-primary: #0B1E33;
+      --text-secondary: #2C3E50;
+      --accent: #1E88E5;
+      --accent-soft: #64B5F6;
+      --border: #B0C4DE;
+      --shadow: 0 12px 28px rgba(10, 25, 47, 0.08);
+      --card-bg: #FFFFFF;
+      --tag-bg: #E3F2FD;
+      --hero-gradient: linear-gradient(135deg, #E8F4FD 0%, #F5F9FF 100%);
+      --font-hand: 'Neucha', cursive;
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0A1929;
+        --surface: #132F4C;
+        --text-primary: #E3F2FD;
+        --text-secondary: #B0C4DE;
+        --accent: #42A5F5;
+        --accent-soft: #1E88E5;
+        --border: #1E3A5F;
+        --shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+        --card-bg: #132F4C;
+        --tag-bg: #1A3A5C;
+        --hero-gradient: linear-gradient(135deg, #0D2B45 0%, #0A1929 100%);
+      }
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.5;
+      transition: background 0.3s ease, color 0.3s ease;
+      padding: 0 16px;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 24px 0;
+    }
+
+    /* === ИСПРАВЛЕННЫЕ АНИМАЦИИ === */
+    
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(24px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .reveal {
+      opacity: 0;
+      animation: fadeSlideUp 0.7s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.25s; }
+    .delay-3 { animation-delay: 0.4s; }
+    .delay-4 { animation-delay: 0.55s; }
+
+    /* плавное "всплытие" карточек при наведении */
+    .card {
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                  box-shadow 0.35s ease,
+                  border-color 0.3s ease;
+      will-change: transform;
+    }
+    
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(10, 25, 47, 0.12);
+      border-color: var(--accent-soft);
+    }
+
+    /* лёгкое увеличение при наведении на hand-font без дрожания */
+    .hand-font {
+      transition: transform 0.3s ease, color 0.3s ease;
+      display: inline-block;
+    }
+    
+    .hand-font:hover {
+      transform: scale(1.03);
+      color: var(--accent);
+    }
+
+    /* кнопки — мягкая реакция */
+    .btn {
+      transition: all 0.25s cubic-bezier(0.4, 0.0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(30, 136, 229, 0.2);
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.08s ease;
+    }
+
+    /* волна при клике на кнопку */
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease;
+    }
+    
+    .btn:active::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* hero блок с мягким движением */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease-out;
+    }
+
+    /* стрелочка внизу */
+    .hero::after {
+      content: '↓';
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0.5;
+      animation: gentleBounce 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* чернильные пятна в секциях */
+    section {
+      position: relative;
+    }
+    
+    section::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: -20px;
+      width: 80px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(30,136,229,0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* стикер-эффект для about-note */
+    .about-note {
+      position: relative;
+      background: linear-gradient(120deg, rgba(66,165,245,0.06) 0%, rgba(100,181,246,0.1) 100%);
+      border-left: 4px dashed var(--accent);
+      transform: rotate(-0.3deg);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .about-note:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    /* теги как наклейки */
+    .tag {
+      transform: rotate(-0.5deg);
+      border: 1px dashed var(--accent-soft);
+      background: var(--tag-bg);
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+    
+    .tag:hover {
+      transform: rotate(0deg) scale(1.06);
+    }
+
+    /* анимация чернильного пятна при клике */
+    .ink-spot {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+      animation: inkSpread 0.7s ease-out forwards;
+    }
+
+    @keyframes inkSpread {
+      0% { 
+        width: 10px; 
+        height: 10px; 
+        opacity: 0.8; 
+        transform: translate(-50%, -50%) scale(0); 
+      }
+      100% { 
+        width: 10px; 
+        height: 10px; 
+        opacity: 0; 
+        transform: translate(-50%, -50%) scale(12); 
+      }
+    }
+
+    .hand-font {
+      font-family: var(--font-hand);
+      letter-spacing: 0.02em;
+    }
+
+    /* header */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0 10px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+    
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: var(--font-hand);
+      transform: rotate(-0.5deg);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+    
+    .lang-switch {
+      display: flex;
+      gap: 10px;
+      background: var(--surface);
+      padding: 6px 12px;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+    }
+    
+    .lang-btn {
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 20px;
+      transition: 0.2s;
+      font-family: var(--font-sans);
+    }
+    
+    .lang-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .lang-btn:hover:not(.active) {
+      background: var(--tag-bg);
+    }
+
+    /* hero */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 0 50px;
+      background: var(--hero-gradient);
+      border-radius: 42px;
+      margin-bottom: 50px;
+      border: 1px solid var(--border);
+    }
+    
+    .hero h1 {
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      font-family: var(--font-hand);
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 18px;
+      transform: rotate(-0.3deg);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+    }
+    
+    .badge {
+      background: var(--accent);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .btn {
+      padding: 14px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      background: var(--surface);
+      color: var(--text-primary);
+      border-color: var(--border);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      cursor: pointer;
+    }
+    
+    .btn.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      box-shadow: 0 8px 18px rgba(30,136,229,0.25);
+    }
+
+    /* секции */
+    section {
+      margin: 70px 0;
+    }
+    
+    .section-title {
+      font-family: var(--font-hand);
+      font-size: 2.3rem;
+      margin-bottom: 24px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .grid-3, .grid-2 {
+      display: grid;
+      gap: 26px;
+    }
+    
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 28px 22px;
+      border-radius: 28px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      position: relative;
+    }
+    
+    .card h3 {
+      font-family: var(--font-hand);
+      font-size: 1.6rem;
+      margin: 12px 0 10px;
+    }
+    
+    .tag {
+      padding: 4px 14px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 14px;
+    }
+
+    .about-note {
+      background: var(--surface);
+      padding: 20px 24px;
+      border-radius: 18px;
+      margin: 28px 0;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 0 10px; }
+      header { flex-direction: column; gap: 14px; }
+      .hero { padding: 28px 16px 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    
+    <!-- Шапка + переключатель языков -->
+    <header>
+      <div class="logo">
+        <svg width="140" height="44" viewBox="0 0 140 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- скобка -->
+            <text x="0" y="34" font-family="'Courier New', monospace" font-weight="bold" font-size="28" fill="var(--accent)">{</text>
+            <!-- буква O -->
+            <circle cx="38" cy="22" r="12" stroke="var(--accent)" stroke-width="2.5" fill="none"/>
+            <!-- точка внутри O -->
+            <circle cx="38" cy="22" r="2.5" fill="var(--accent)"/>
+            <!-- надпись marDev -->
+            <text x="56" y="30" font-family="var(--font-hand)" font-weight="700" font-size="22" fill="var(--text-primary)">marDev</text>
+            <!-- нижнее подчёркивание -->
+            <line x1="56" y1="36" x2="130" y2="36" stroke="var(--accent-soft)" stroke-width="1.5" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="az">AZ</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <!-- Главный блок -->
+    <div class="hero reveal delay-1">
+      <span class="badge hand-font" data-i18n="badge">уже 3+ года в программировании</span>
+      <h1 class="hand-font" data-i18n="heroTitle">Сайты, боты и автоматизация без головной боли</h1>
+      <p data-i18n="heroSub">Делаю так, чтобы всё работало. Без лишних заморочек. Сайт-визитка, Telegram-бот или умная таблица — решу под ключ.</p>
+      <div class="btn-group">
+        <a href="#contact" class="btn primary" data-i18n="cta1">Оставить заявку</a>
+        <a href="https://wa.me/994556305525" target="_blank" class="btn" data-i18n="cta2">💬 WhatsApp</a>
+      </div>
+    </div>
+
+    <!-- Обо мне -->
+    <section id="about">
+      <h2 class="section-title hand-font reveal delay-1"><span>👋</span> <span data-i18n="aboutTitle">Кто я и почему это не просто «сделаю сайт»</span></h2>
+      <div class="grid-2">
+        <div class="reveal delay-2">
+          <p style="font-size: 1.1rem; color: var(--text-secondary);" data-i18n="aboutText1">
+            Привет! Я Омар. Программирую уже больше трёх лет. Окончил учёбу в STEP IT Academy, а теперь ушёл в реальные проекты. Без воды. Сложные термины — объясняю всё нормальным языком.
+          </p>
+          <div class="about-note reveal delay-3">
+            <span data-i18n="aboutNote">⚡ Кроме академии — 3 года практики: от простых лендингов до ботов, которые экономят часы рутины.</span>
+          </div>
+        </div>
+        <div class="card reveal delay-3" style="display: flex; flex-direction: column; gap: 12px;">
+          <span data-i18n="check1">✔ Делаю быстро, но не тяп-ляп</span>
+          <span data-i18n="check2">✔ Всегда на связи в Telegram/WhatsApp</span>
+          <span data-i18n="check3">✔ Правки и объяснения — без проблем</span>
+          <span data-i18n="check4">✔ Работаю с физлицами, мастерами, небольшими бизнесами</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services">
+      <h2 class="section-title hand-font reveal delay-1"><span>🛠️</span> <span data-i18n="servicesTitle">Чем могу помочь</span></h2>
+      <div class="grid-3">
+        <div class="card reveal delay-2">
+          <h3 data-i18n="service1Title">Сайт-визитка</h3>
+          <p data-i18n="service1Desc">Одностраничный сайт с твоими услугами, контактами и формой. Клиенты находят и пишут сразу. Без конструкторов, всё чисто.</p>
+          <span class="tag" data-i18n="service1Tag">мастера, специалисты, салоны</span>
+        </div>
+        <div class="card reveal delay-3">
+          <h3 data-i18n="service2Title">Telegram-бот</h3>
+          <p data-i18n="service2Desc">Бот для приёма заявок, ответов на вопросы или рассылок. Работает 24/7, тебе не нужно отвечать руками.</p>
+          <span class="tag" data-i18n="service2Tag">приём заказов, поддержка</span>
+        </div>
+        <div class="card reveal delay-4">
+          <h3 data-i18n="service3Title">Автоматизация таблиц</h3>
+          <p data-i18n="service3Desc">Excel или Google Таблицы, которые сами считают, сортируют и формируют отчёты. Забудь про рутину.</p>
+          <span class="tag" data-i18n="service3Tag">учёт, отчёты, данные</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Проекты / портфолио -->
+    <section id="portfolio">
+      <h2 class="section-title hand-font reveal delay-1"><span>📂</span> <span data-i18n="portfolioTitle">Пара моих работ</span></h2>
+      <div class="grid-2 reveal delay-2">
+        <div class="card">
+          <h3 data-i18n="project1Name">Лендинг для барбера</h3>
+          <p data-i18n="project1Desc">Сайт с записью через WhatsApp, галереей и отзывами. Человек теперь получает клиентов напрямую.</p>
+        </div>
+        <div class="card">
+          <h3 data-i18n="project2Name">Бот для доставки</h3>
+          <p data-i18n="project2Desc">Telegram-бот принимает заказы и уведомляет админа. Раньше писали в личку, теперь всё структурировано.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакт / заявка -->
+    <section id="contact">
+      <h2 class="section-title hand-font reveal delay-1"><span>✉️</span> <span data-i18n="contactTitle">Давай обсудим задачу</span></h2>
+      <div class="grid-2 reveal delay-2">
+        <div>
+          <p style="margin-bottom: 22px; color: var(--text-secondary);" data-i18n="contactDesc">
+            Напиши мне прямо сейчас — в WhatsApp или Telegram. Или оставь заявку здесь, я отвечу в течение дня.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <a href="https://wa.me/994556305525" target="_blank" class="btn" style="justify-content: center;">WhatsApp: +994 55 630 55 25</a>
+            <a href="https://t.me/Dofen4655" target="_blank" class="btn" style="justify-content: center;">Telegram: @Dofen4655</a>
+            <a href="mailto:Askerovomar465@gmail.com" class="btn" style="justify-content: center;">Askerovomar465@gmail.com</a>
+          </div>
+        </div>
+        <div class="card" style="background: var(--surface);">
+          <form id="quickForm" style="display: flex; flex-direction: column; gap: 16px;">
+            <input type="text" id="nameInput" placeholder="Ваше имя" required style="padding: 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text-primary);">
+            <input type="text" id="contactInput" placeholder="Telegram / WhatsApp / Email" required style="padding: 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text-primary);">
+            <textarea id="msgInput" rows="3" placeholder="Коротко о задаче" style="padding: 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg); color: var(--text-primary);"></textarea>
+            <button type="submit" class="btn primary" data-i18n="sendBtn">Отправить</button>
+            <div id="formFeedback" style="font-size:0.9rem; margin-top:6px;"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p data-i18n="footer">© 2026 Омар — сайты, боты, автоматизация. Работаю по делу.</p>
+    </footer>
+  </div>
+
+<script>
+    (function() {
+      // ---------- ПЕРЕВОДЫ ----------
+      const translations = {
+        ru: {
+          badge: "уже 3+ года в программировании",
+          heroTitle: "Сайты, боты и автоматизация без головной боли",
+          heroSub: "Делаю так, чтобы всё работало. Без лишних заморочек. Сайт-визитка, Telegram-бот или умная таблица — решу под ключ.",
+          cta1: "Оставить заявку",
+          cta2: "💬 WhatsApp",
+          aboutTitle: "Кто я и почему это не просто «сделаю сайт»",
+          aboutText1: "Привет! Я Омар. Программирую уже больше трёх лет. Начинал с учёбы в STEP IT Academy, а потом ушёл в реальные проекты. Не люблю воду и сложные термины — объясняю всё нормальным языком.",
+          aboutNote: "⚡ Кроме академии — 3 года практики: от простых лендингов до ботов, которые экономят часы рутины.",
+          check1: "✔ Делаю быстро, но не тяп-ляп",
+          check2: "✔ Всегда на связи в Telegram/WhatsApp",
+          check3: "✔ Правки и объяснения — без проблем",
+          check4: "✔ Работаю с физлицами, мастерами, небольшими бизнесами",
+          servicesTitle: "Чем могу помочь",
+          service1Title: "Сайт-визитка",
+          service1Desc: "Одностраничный сайт с твоими услугами, контактами и формой. Клиенты находят и пишут сразу. Без конструкторов, всё чисто.",
+          service1Tag: "мастера, специалисты, салоны",
+          service2Title: "Telegram-бот",
+          service2Desc: "Бот для приёма заявок, ответов на вопросы или рассылок. Работает 24/7, тебе не нужно отвечать руками.",
+          service2Tag: "приём заказов, поддержка",
+          service3Title: "Автоматизация таблиц",
+          service3Desc: "Excel или Google Таблицы, которые сами считают, сортируют и формируют отчёты. Забудь про рутину.",
+          service3Tag: "учёт, отчёты, данные",
+          portfolioTitle: "Пара моих работ",
+          project1Name: "Лендинг для барбера",
+          project1Desc: "Сайт с записью через WhatsApp, галереей и отзывами. Человек теперь получает клиентов напрямую.",
+          project2Name: "Бот для доставки",
+          project2Desc: "Telegram-бот принимает заказы и уведомляет админа. Раньше писали в личку, теперь всё структурировано.",
+          contactTitle: "Давай обсудим задачу",
+          contactDesc: "Напиши мне прямо сейчас — в WhatsApp или Telegram. Или оставь заявку здесь, я отвечу в течение дня.",
+          sendBtn: "Отправить",
+          footer: "© 2026 Омар — сайты, боты, автоматизация. Работаю по делу."
+        },
+        az: {
+          badge: "artıq 3+ ildir proqramlaşdırmadayam",
+          heroTitle: "Saytlar, botlar və avtomatlaşdırma – baş ağrısız",
+          heroSub: "Hər şeyin işlək olmasını təmin edirəm. Lazımsız çətinlik olmadan. Vizit saytı, Telegram botu və ya ağıllı cədvəl – açar təslim edirəm.",
+          cta1: "Müraciət et",
+          cta2: "💬 WhatsApp",
+          aboutTitle: "Mən kiməm və bu sadəcə 'sayt düzəldərəm' deyil",
+          aboutText1: "Salam! Mən Omar. 3 ildən çoxdur kod yazıram. STEP IT Akademiyasında oxumuşam, sonra real layihələrə keçdim. Boş sözləri sevmirəm – hər şeyi normal dildə izah edirəm.",
+          aboutNote: "⚡ Akademiyadan əlavə 3 illik təcrübə: sadə səhifələrdən tutmuş saatlarla vaxta qənaət edən botlara qədər.",
+          check1: "✔ Sürətli, amma keyfiyyətli iş",
+          check2: "✔ Həmişə Telegram/WhatsApp-da əlaqədəyəm",
+          check3: "✔ Düzəlişlər və izahat problemsiz",
+          check4: "✔ Fiziki şəxslər, ustalar, kiçik bizneslərlə işləyirəm",
+          servicesTitle: "Necə kömək edə bilərəm",
+          service1Title: "Vizit saytı",
+          service1Desc: "Xidmətlərin, əlaqə və forma ilə tək səhifəli sayt. Müştərilər sizi tapıb dərhal yazır.",
+          service1Tag: "ustalar, mütəxəssislər, salonlar",
+          service2Title: "Telegram botu",
+          service2Desc: "Müraciətləri qəbul edən, sualları cavablandıran bot. 24/7 işləyir, əllə cavab yazmağa ehtiyac qalmır.",
+          service2Tag: "sifariş qəbulu, dəstək",
+          service3Title: "Cədvəl avtomatlaşdırması",
+          service3Desc: "Excel və ya Google Cədvəllər özü hesablayır, sıralayır, hesabat hazırlayır.",
+          service3Tag: "mühasibat, hesabatlar",
+          portfolioTitle: "Bir neçə işim",
+          project1Name: "Bərbər üçün səhifə",
+          project1Desc: "WhatsApp qeydiyyat, qalereya və rəylərlə sayt.",
+          project2Name: "Çatdırılma botu",
+          project2Desc: "Telegram bot sifarişləri qəbul edir və adminə xəbər verir.",
+          contactTitle: "Tapşırığı müzakirə edək",
+          contactDesc: "WhatsApp və ya Telegram-da yazın. Və ya burada müraciət edin, gün ərzində cavab verirəm.",
+          sendBtn: "Göndər",
+          footer: "© 2026 Omar — saytlar, botlar, avtomatlaşdırma. İşimi sevirəm."
+        },
+        en: {
+          badge: "3+ years in programming",
+          heroTitle: "Websites, bots & automation without the headache",
+          heroSub: "I make things work. No fluff. Landing page, Telegram bot or smart spreadsheet — done for you.",
+          cta1: "Leave a request",
+          cta2: "💬 WhatsApp",
+          aboutTitle: "Who I am & why it's not just 'making a website'",
+          aboutText1: "Hey! I'm Omar. Coding for over 3 years. Studied at STEP IT Academy then moved to real projects. I skip jargon and explain things clearly.",
+          aboutNote: "⚡ Beyond academy — 3 years of practice: from simple landing pages to bots that save hours.",
+          check1: "✔ Fast, but not sloppy",
+          check2: "✔ Always reachable on Telegram/WhatsApp",
+          check3: "✔ Revisions & explanations – no problem",
+          check4: "✔ Working with individuals, craftsmen, small businesses",
+          servicesTitle: "What I can help with",
+          service1Title: "Landing page",
+          service1Desc: "One-page site with your services, contacts and form. Clients find and message you directly.",
+          service1Tag: "craftsmen, specialists, salons",
+          service2Title: "Telegram bot",
+          service2Desc: "Bot for orders, FAQs or notifications. Works 24/7, no manual replies needed.",
+          service2Tag: "order taking, support",
+          service3Title: "Spreadsheet automation",
+          service3Desc: "Excel or Google Sheets that calculate, sort and report automatically.",
+          service3Tag: "accounting, reports",
+          portfolioTitle: "A couple of works",
+          project1Name: "Barber landing",
+          project1Desc: "Site with WhatsApp booking, gallery and reviews.",
+          project2Name: "Delivery bot",
+          project2Desc: "Telegram bot takes orders and notifies admin.",
+          contactTitle: "Let's discuss your task",
+          contactDesc: "Message me on WhatsApp or Telegram. Or drop a request here, I reply within a day.",
+          sendBtn: "Send",
+          footer: "© 2026 Omar — websites, bots, automation. No nonsense."
+        }
+      };
+
+      let currentLang = 'ru';
+
+      function applyLanguage(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+          }
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const btnLang = btn.getAttribute('data-lang');
+          btn.classList.toggle('active', btnLang === lang);
+        });
+        localStorage.setItem('preferredLang', lang);
+      }
+
+      document.getElementById('langSwitch').addEventListener('click', (e) => {
+        if (e.target.classList.contains('lang-btn')) {
+          const lang = e.target.getAttribute('data-lang');
+          if (lang && lang !== currentLang) {
+            currentLang = lang;
+            applyLanguage(lang);
+          }
+        }
+      });
+
+      const savedLang = localStorage.getItem('preferredLang') || 'ru';
+      currentLang = savedLang;
+      applyLanguage(currentLang);
+
+      // Форма
+      const form = document.getElementById('quickForm');
+      const feedback = document.getElementById('formFeedback');
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('nameInput').value.trim();
+        const contact = document.getElementById('contactInput').value.trim();
+        const msg = document.getElementById('msgInput').value.trim();
+        
+        if (!name || !contact) {
+          feedback.textContent = currentLang === 'ru' ? 'Заполни имя и контакт' : 
+                                 currentLang === 'az' ? 'Ad və əlaqəni doldur' : 
+                                 'Fill name and contact';
+          return;
+        }
+        
+        const text = `Привет, Омар! Я ${name}. Мой контакт: ${contact}. Сообщение: ${msg}`;
+        window.open(`https://wa.me/994556305525?text=${encodeURIComponent(text)}`, '_blank');
+        feedback.textContent = currentLang === 'ru' ? 'Перенаправляю в WhatsApp...' : 
+                               currentLang === 'az' ? 'WhatsApp-a yönləndirilir...' : 
+                               'Redirecting to WhatsApp...';
+        form.reset();
+      });
+
+      // Анимация появления при скролле
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+          }
+        });
+      }, { threshold: 0.15 });
+      
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.style.animationPlayState = 'paused';
+        observer.observe(el);
+      });
+
+      // Запускаем анимацию для видимых элементов сразу
+      setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            el.style.animationPlayState = 'running';
+          }
+        });
+      }, 100);
+
+      // Эффект чернильного пятна при клике на логотип
+      document.querySelector('.logo').addEventListener('click', function(e) {
+        const spot = document.createElement('div');
+        spot.className = 'ink-spot';
+        spot.style.left = e.clientX + 'px';
+        spot.style.top = e.clientY + 'px';
+        document.body.appendChild(spot);
+        setTimeout(() => spot.remove(), 700);
+      });
+
+      // Лёгкий параллакс hero на десктопе
+      const hero = document.querySelector('.hero');
+      if (hero && window.innerWidth > 768) {
+        hero.addEventListener('mousemove', (e) => {
+          const rect = hero.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width - 0.5;
+          const y = (e.clientY - rect.top) / rect.height - 0.5;
+          hero.style.transform = `translate(${x * 6}px, ${y * 6}px)`;
+        });
+        
+        hero.addEventListener('mouseleave', () => {
+          hero.style.transform = 'translate(0, 0)';
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
